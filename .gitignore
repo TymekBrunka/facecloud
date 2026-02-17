@@ -1,1 +1,5 @@
 Session.vim
+tui/fctui
+tui/fctui.exe
+server/fcserver
+server/fcserver.exe
