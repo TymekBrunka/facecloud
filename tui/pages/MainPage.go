@@ -25,6 +25,14 @@ func (p MainPage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c":
 			return p, tea.Quit
+		case "enter":
+			if p.list.SelectedItem() == MAINPAGE_list[0] {
+				page := NewEnvEditorMainPage()
+				page.parent = p
+				Current = page
+				return Current, tea.WindowSize() // the size is queried to fix broken rendering after loading new page
+			}
+			return Current, tea.WindowSize()
 		}
 	case tea.WindowSizeMsg:
 		p.width = msg.Width
@@ -50,12 +58,12 @@ func (p MainPage) DeletePage() {
 	Current = p.parent
 }
 
-func NewMainPage() MainPage {
-	list := sl.New([]list.Item{
-		sl.Item{Name: "reinit password", Desc: "hasło do reinicjalizacji"},
-		sl.Item{Name: "dyrek password", Desc: "hasło dyrka"},
-	})
+var MAINPAGE_list = []list.Item{
+	sl.Item{Name: "Konfiguracja środowiska", Desc: "Konfigurator pliku .env (zmiany zachodzą po ponownym uruchomieniu serwera)"},
+}
 
+func NewMainPage() MainPage {
+	list := sl.New(MAINPAGE_list)
 	p := MainPage{
 		parent: nil,
 		list:   list,
