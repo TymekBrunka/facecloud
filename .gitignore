@@ -4,4 +4,6 @@ tui/.env
 tui/fctui.exe
 server/fcserver
 server/fcserver.exe
+server/.env
 test.log
+.env

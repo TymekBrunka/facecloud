@@ -138,11 +138,11 @@ func (p EnvEditorMain) View() string {
 	var additional string
 	if p.givesInput {
 		item, _ := ENVEDITORMAIN_list[p.selectedItemIndex].(item_t)
-		additional += fmt.Sprintf("\n--------\nEdytowanie %s\n -> ", keys[item.Key])
+		additional += fmt.Sprintf("\n--------\nEdytowanie %s\n -", keys[item.Key])
 		if item.Hidden {
-			additional += strings.Repeat("*", len(p.text.Value()))
+			additional += "> " + strings.Repeat("*", len(p.text.Value()))
 		} else {
-			additional += p.text.Value()
+			additional += p.text.View()
 		}
 	}
 	return p.list.View() + additional

@@ -89,7 +89,7 @@ func Run() {
 		log.Println("Error reading the environment variables: %v", err)
 	}
 
-	log.Printf("%+v\n", Env)
+	// log.Printf("%+v\n", Env)
 
 	p := tea.NewProgram(PageResolver)
 	if _, err := p.Run(); err != nil {
