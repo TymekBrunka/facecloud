@@ -2,8 +2,10 @@ package main
 
 import (
 	cfg "fcserver/config"
+	"fcserver/endpoints"
 	"fmt"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -19,4 +21,9 @@ func main() {
 		log.Fatal("\x1b[31m", err, "\x1b[0m")
 	}
 	_res = _res //ignore unused variable error
+
+	http.HandleFunc("/reinit", endpoints.ReinitDB)
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		log.Fatal(err)
+	}
 }

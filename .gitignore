@@ -7,3 +7,5 @@ server/fcserver.exe
 server/.env
 test.log
 .env
+__pycache__/
+API_TESTING/
