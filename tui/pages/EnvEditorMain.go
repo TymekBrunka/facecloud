@@ -92,7 +92,6 @@ func (p EnvEditorMain) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					}
 
 					log.Println("Saved", bytessaved, "bytes to .env file")
-					break
 				}
 
 				p.givesInput = false

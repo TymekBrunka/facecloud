@@ -3,6 +3,7 @@ package config
 import (
 	"database/sql"
 	"errors"
+	"sync"
 
 	// "log"
 
@@ -12,9 +13,16 @@ import (
 )
 
 type Config struct {
-	_REINIT_LOGIN, _REINIT_PASSWORD, _SUPERUSER_EMAIL, _SUPERUSER_PASSWORD, _SUPERUSER_BIRTH_DATE string
+	REINIT_LOGIN_, REINIT_PASSWORD_, SUPERUSER_EMAIL_, SUPERUSER_PASSWORD_, SUPERUSER_BIRTH_DATE_ string
 	Db                                                                                            *sql.DB
 }
+
+type Global_Config_t struct {
+	Data Config
+	Lock sync.RWMutex
+}
+
+var Global Global_Config_t
 
 // constants from tui/pages/pages.go
 const (
@@ -85,11 +93,11 @@ func Production() (Config, error) {
 
 	var config Config
 	db_key := getEnvKey(env, DB, &err)
-	config._REINIT_LOGIN = getEnvKey(env, REINIT_LOGIN, &err)
-	config._REINIT_PASSWORD = getEnvKey(env, REINIT_PASSWORD, &err)
-	config._SUPERUSER_EMAIL = getEnvKey(env, SUPERUSER_EMAIL, &err)
-	config._SUPERUSER_PASSWORD = getEnvKey(env, SUPERUSER_PASSWORD, &err)
-	config._SUPERUSER_BIRTH_DATE = getEnvKey(env, SUPERUSER_BIRTH_DATE, &err)
+	config.REINIT_LOGIN_ = getEnvKey(env, REINIT_LOGIN, &err)
+	config.REINIT_PASSWORD_ = getEnvKey(env, REINIT_PASSWORD, &err)
+	config.SUPERUSER_EMAIL_ = getEnvKey(env, SUPERUSER_EMAIL, &err)
+	config.SUPERUSER_PASSWORD_ = getEnvKey(env, SUPERUSER_PASSWORD, &err)
+	config.SUPERUSER_BIRTH_DATE_ = getEnvKey(env, SUPERUSER_BIRTH_DATE, &err)
 
 	if err != nil {
 		return Config{}, err
@@ -114,11 +122,11 @@ func Test() (Config, error) {
 
 	var config Config
 	db_key := getEnvKey(env, DB, &err)
-	config._REINIT_LOGIN = getEnvKey(env, REINIT_LOGIN, &err)
-	config._REINIT_PASSWORD = getEnvKey(env, REINIT_PASSWORD, &err)
-	config._SUPERUSER_EMAIL = getEnvKey(env, SUPERUSER_EMAIL, &err)
-	config._SUPERUSER_PASSWORD = getEnvKey(env, SUPERUSER_PASSWORD, &err)
-	config._SUPERUSER_BIRTH_DATE = getEnvKey(env, SUPERUSER_BIRTH_DATE, &err)
+	config.REINIT_LOGIN_ = getEnvKey(env, REINIT_LOGIN, &err)
+	config.REINIT_PASSWORD_ = getEnvKey(env, REINIT_PASSWORD, &err)
+	config.SUPERUSER_EMAIL_ = getEnvKey(env, SUPERUSER_EMAIL, &err)
+	config.SUPERUSER_PASSWORD_ = getEnvKey(env, SUPERUSER_PASSWORD, &err)
+	config.SUPERUSER_BIRTH_DATE_ = getEnvKey(env, SUPERUSER_BIRTH_DATE, &err)
 
 	if err != nil {
 		return Config{}, err
