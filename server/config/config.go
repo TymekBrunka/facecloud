@@ -15,14 +15,8 @@ import (
 type Config struct {
 	REINIT_LOGIN_, REINIT_PASSWORD_, SUPERUSER_EMAIL_, SUPERUSER_PASSWORD_, SUPERUSER_BIRTH_DATE_ string
 	Db                                                                                            *sql.DB
-}
-
-type Global_Config_t struct {
-	Data Config
 	Lock sync.RWMutex
 }
-
-var Global Global_Config_t
 
 // constants from tui/pages/pages.go
 const (
