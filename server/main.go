@@ -3,7 +3,9 @@ package main
 import (
 	cfg "fcserver/config"
 	"fcserver/endpoints"
-	ng "fcserver/netguard"
+	"sync"
+
+	// ng "fcserver/netguard"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +14,7 @@ import (
 func main() {
 	fmt.Println("hello world!");
 	config, err := cfg.Production()
+	cfg.Global = cfg.Global_Config_t{Data: config, Lock: sync.RWMutex{}}
 
 	if err != nil {
 		log.Fatal("\x1b[31mCannot initialize server\x1b[0m: ", err)

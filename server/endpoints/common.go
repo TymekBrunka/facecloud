@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	cfg "fcserver/config"
+	"io/fs"
 	"log"
 	"net/http"
 )
@@ -36,7 +37,7 @@ func ReinitDB(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing fields", http.StatusBadRequest)
 	}
 
-	if data.Login != cfg.Global.Data.REINIT_LOGIN_ || data.Password != cfg.Global.Data.REINIT_PASSWORD_ {
+	if data.Login != cfg.Global.Data.REINIT_LOGIN_ || password != cfg.Global.Data.REINIT_PASSWORD_ {
 		http.Error(w, "Wrong credentials", http.StatusBadRequest)
 	}
 
@@ -46,5 +47,14 @@ func ReinitDB(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	tx = tx
+
+	query_s, err := fs.ReadFile(nil, "sqlv2.sql")
+	if err != nil {
+		log.Println("Cant reset database: no 'sqlv2.sql' file found")
+		http.Error(w, "Cant reset database: no 'sqlv2.sql' file found", http.StatusBadRequest)
+	}
+
+	tx.Exec(string(query_s))
+
+	tx.Commit()
 }
